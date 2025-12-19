@@ -1,0 +1,32 @@
+BM25 BASELINE RUN @ 2025-12-17 22:33:54
+Параметры: k1=2.0, b=0.75
+Запросов: 3 | Всего аналогов: 12 | Средний скор: 0.422
+Совпадение категорий: 12/12 (100.0%)
+
+---
+Запрос #0 | Acer - Predator Helios 18-18" 250Hz Gaming Laptop HDR– Intel i9-13900HX with 32GB Memory–GeForce RTX 4080–1TB SSD (Computers & Tablets)
+Метрики: avg_score=0.239, cat 5/5
+Аналоги:
+  1) [ID 521] ASUS - TUF 15.6" Gaming Laptop 144hz FHD - Intel Core i7 with 16GB Memory - NVIDIA GeForce RTX 4060 - 512GB SSD - Mecha Grey | cat=Computers & Tablets | BM25 score=0.309
+  2) [ID 895] ASUS - Vivobook 15.6" Creator Laptop (HD) - Intel 13th Gen Core i9 with 16GB Memory - NVIDIA GeForce RTX 3050 - 1TB SSD - Black | cat=Computers & Tablets | BM25 score=0.270
+  3) [ID 535] MSI - Creator Z16P 16" Touch-Screen Laptop - Intel Core i7 - 32 GB Memory - NVIDIA GeForce RTX 3080 Ti - 1 TB SSD - Lunar Gray | cat=Computers & Tablets | BM25 score=0.218
+  4) [ID 6] HP - EliteBook 14" Refurbished Laptop - Intel Core i5 - 32GB Memory - 1TB Solid State Drive - Gray | cat=Computers & Tablets | BM25 score=0.200
+  5) [ID 899] Dell - 15.6" Refurbished 1920 x 1080 FHD - Intel 9th Gen Core i7-9750H with 32GB RAM - NVIDIA Quadro P620 - 512GB SSD - Gray | cat=Computers & Tablets | BM25 score=0.200
+
+---
+Запрос #10 | Samsung - The Terrace Series 75" Class LED Outdoor Partial Sun 4K UHD Smart Tizen TV (TV & Home Theater)
+Метрики: avg_score=0.210, cat 2/2
+Аналоги:
+  1) [ID 9] Samsung - The Terrace Outdoor Slim TV Mount up to 75" - Black | cat=TV & Home Theater | BM25 score=0.255
+  2) [ID 23] Samsung - The Freestyle FHD HDR Smart Portable Projector - White | cat=TV & Home Theater | BM25 score=0.165
+
+---
+Запрос #20 | Samsung - Geek Squad Certified Refurbished Galaxy S21+ 5G 128GB (Unlocked) - Phantom Silver (Cell Phones)
+Метрики: avg_score=0.817, cat 5/5
+Аналоги:
+  1) [ID 83] Samsung - Geek Squad Certified Refurbished Galaxy S21 5G 128GB (Unlocked) - Phantom Gray | cat=Cell Phones | BM25 score=0.895
+  2) [ID 167] Samsung - Geek Squad Certified Refurbished Galaxy S21 Ultra 5G 128GB (Unlocked) - Phantom Silver | cat=Cell Phones | BM25 score=0.893
+  3) [ID 87] Samsung - Geek Squad Certified Refurbished Galaxy Z Fold2 5G 256GB (Unlocked) - Black | cat=Cell Phones | BM25 score=0.783
+  4) [ID 79] Samsung - Geek Squad Certified Refurbished Galaxy A12 32GB (Unlocked) - Black | cat=Cell Phones | BM25 score=0.772
+  5) [ID 86] Samsung - Geek Squad Certified Refurbished Galaxy Z Flip 5G 256GB (Unlocked) - Mystic Bronze | cat=Cell Phones | BM25 score=0.742
+

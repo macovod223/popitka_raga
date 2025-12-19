@@ -1,0 +1,274 @@
+RAG RUN @ 2025-12-16 19:09:59
+Запросов: 15 | Всего аналогов: 75 | Средний скор: 0.821
+Совпадение категорий: 75/75 (100.0%)
+
+---
+Запрос #0 | Acer - Predator Helios 18-18" 250Hz Gaming Laptop HDR– Intel i9-13900HX with 32GB Memory–GeForce RTX 4080–1TB SSD (Computers & Tablets)
+Метрики: avg_score=0.787, cat 5/5
+Аналоги:
+  1) [ID 521] ASUS - TUF 15.6" Gaming Laptop 144hz FHD - Intel Core i7 with 16GB Memory - NVIDIA GeForce RTX 4060 - 512GB SSD - Mecha Grey | cat=Computers & Tablets | score=0.800
+  2) [ID 34] HP - 830 G6 13.3" Refurbished 1920x1080 FHD - Intel 8th Gen Core i7-8665U - Intel UHD Graphics 620 with 16GB and 512GB - SSD - Silver | cat=Computers & Tablets | score=0.795
+  3) [ID 881] Lenovo - 15.6" Refurbished 1920 x 1080 FHD - Intel 6th Gen Core i7-6600U with 16GB RAM - Intel HD Graphics 520 - 512GB SSD - Black | cat=Computers & Tablets | score=0.789
+  4) [ID 899] Dell - 15.6" Refurbished 1920 x 1080 FHD - Intel 9th Gen Core i7-9750H with 32GB RAM - NVIDIA Quadro P620 - 512GB SSD - Gray | cat=Computers & Tablets | score=0.781
+  5) [ID 895] ASUS - Vivobook 15.6" Creator Laptop (HD) - Intel 13th Gen Core i9 with 16GB Memory - NVIDIA GeForce RTX 3050 - 1TB SSD - Black | cat=Computers & Tablets | score=0.771
+Генерация:
+анализ результатов поиска:
+- найдено аналогов: 5
+- средний скор сходства: 0.787
+- совпадение категории: 5/5 (100%)
+
+вывод: суть категории сохраняется, все аналоги из той же категории.
+качество поиска: высокое (скор > 0.7)
+
+---
+Запрос #60 | Sauder - Barrister Lane Collection 10-Shelf Bookcase - Iron Oak (Home, Furniture & Office)
+Метрики: avg_score=0.740, cat 5/5
+Аналоги:
+  1) [ID 64] Sauder - Harvey Park Collection 2-Shelf Bookcase - Grand Walnut | cat=Home, Furniture & Office | score=0.799
+  2) [ID 67] Sauder - HomePlus Collection 3-Shelf Bookcase - White | cat=Home, Furniture & Office | score=0.790
+  3) [ID 69] Sauder - North Avenue L-Desk - Smoked Oak | cat=Home, Furniture & Office | score=0.710
+  4) [ID 66] Sauder - Harvey Park Collection 6-Drawer Dresser - Grand Walnut | cat=Home, Furniture & Office | score=0.705
+  5) [ID 65] Sauder - Harvey Park Collection 4-Drawer Dresser - Grand Walnut | cat=Home, Furniture & Office | score=0.696
+Генерация:
+анализ результатов поиска:
+- найдено аналогов: 5
+- средний скор сходства: 0.740
+- совпадение категории: 5/5 (100%)
+
+вывод: суть категории сохраняется, все аналоги из той же категории.
+качество поиска: высокое (скор > 0.7)
+
+---
+Запрос #121 | Samsung - 7.5 Cu. Ft. Stackable Gas Dryer with Long Vent Drying - White (Appliances)
+Метрики: avg_score=0.895, cat 5/5
+Аналоги:
+  1) [ID 154] Samsung - 7.5 Cu. Ft. Stackable Gas Dryer with Sensor Dry - White | cat=Appliances | score=0.934
+  2) [ID 151] Samsung - 7.2 Cu. Ft. Gas Dryer with Sensor Dry - White | cat=Appliances | score=0.905
+  3) [ID 120] Samsung - 7.4 Cu. Ft. Smart Gas Dryer with Steam Sanitize+ - White | cat=Appliances | score=0.885
+  4) [ID 122] Samsung - 7.5 Cu. Ft. Smart Gas Dryer with Steam and FlexDry - White | cat=Appliances | score=0.878
+  5) [ID 150] Samsung - 7.2 Cu. Ft. Electric Dryer with Sensor Dry - White | cat=Appliances | score=0.876
+Генерация:
+анализ результатов поиска:
+- найдено аналогов: 5
+- средний скор сходства: 0.895
+- совпадение категории: 5/5 (100%)
+
+вывод: суть категории сохраняется, все аналоги из той же категории.
+качество поиска: высокое (скор > 0.7)
+
+---
+Запрос #182 | America's Greatest Game Shows: Wheel of Fortune & Jeopardy! - Nintendo Switch (Video Games)
+Метрики: avg_score=0.680, cat 5/5
+Аналоги:
+  1) [ID 859] TRIVIAL PURSUIT LIVE! - Nintendo Switch [Digital] | cat=Video Games | score=0.738
+  2) [ID 736] Trüberbrook - Nintendo Switch [Digital] | cat=Video Games | score=0.687
+  3) [ID 910] Yooka-Laylee and the Impossible Lair - Nintendo Switch [Digital] | cat=Video Games | score=0.680
+  4) [ID 720] Xenoblade Chronicles Definitive Edition - Nintendo Switch [Digital] | cat=Video Games | score=0.656
+  5) [ID 855] SEGA AGES Alex Kidd in Miracle World - Nintendo Switch [Digital] | cat=Video Games | score=0.641
+Генерация:
+анализ результатов поиска:
+- найдено аналогов: 5
+- средний скор сходства: 0.680
+- совпадение категории: 5/5 (100%)
+
+вывод: суть категории сохраняется, все аналоги из той же категории.
+качество поиска: среднее (скор 0.5-0.7)
+
+---
+Запрос #243 | KitchenAid - 30" Electric Cooktop - Stainless Steel (Appliances)
+Метрики: avg_score=0.916, cat 5/5
+Аналоги:
+  1) [ID 258] KitchenAid - 36" Electric Cooktop - Stainless Steel | cat=Appliances | score=0.975
+  2) [ID 319] KitchenAid - 36" Electric Cooktop - Black | cat=Appliances | score=0.938
+  3) [ID 273] KitchenAid - 30" Built-In Electric Cooktop - Stainless Steel | cat=Appliances | score=0.906
+  4) [ID 299] KitchenAid - 36" Built-In Electric Cooktop - Stainless Steel | cat=Appliances | score=0.893
+  5) [ID 282] KitchenAid - 36" Built-In Electric Cooktop - Black | cat=Appliances | score=0.866
+Генерация:
+анализ результатов поиска:
+- найдено аналогов: 5
+- средний скор сходства: 0.916
+- совпадение категории: 5/5 (100%)
+
+вывод: суть категории сохраняется, все аналоги из той же категории.
+качество поиска: высокое (скор > 0.7)
+
+---
+Запрос #304 | KitchenAid - Commercial-Style 36" Built-In Gas Cooktop - Stainless Steel (Appliances)
+Метрики: avg_score=0.930, cat 5/5
+Аналоги:
+  1) [ID 367] KitchenAid - Commercial-Style 48'' Built-In Gas Cooktop with 6 Burners and Griddle - Stainless Steel | cat=Appliances | score=0.945
+  2) [ID 321] KitchenAid - 36" Gas Cooktop - Stainless Steel | cat=Appliances | score=0.939
+  3) [ID 274] KitchenAid - 36" Built-In Gas Cooktop - Stainless Steel | cat=Appliances | score=0.933
+  4) [ID 244] KitchenAid - 30" Gas Cooktop - Stainless Steel | cat=Appliances | score=0.919
+  5) [ID 280] KitchenAid - 30" Built-In Gas Cooktop - Stainless Steel | cat=Appliances | score=0.916
+Генерация:
+анализ результатов поиска:
+- найдено аналогов: 5
+- средний скор сходства: 0.930
+- совпадение категории: 5/5 (100%)
+
+вывод: суть категории сохраняется, все аналоги из той же категории.
+качество поиска: высокое (скор > 0.7)
+
+---
+Запрос #365 | Best Buy essentials™ - 6" 2-Way 1-Male to 2-Female RCA Splitter - Black (TV & Home Theater)
+Метрики: avg_score=0.856, cat 5/5
+Аналоги:
+  1) [ID 383] Best Buy essentials™ - 6' Stereo Audio RCA Cable - Black | cat=TV & Home Theater | score=0.876
+  2) [ID 377] Best Buy essentials™ - 6' Coaxial A/V Cable - Black | cat=TV & Home Theater | score=0.863
+  3) [ID 350] Best Buy essentials™ - 25' Stereo Audio RCA Cable - Black | cat=TV & Home Theater | score=0.859
+  4) [ID 378] Best Buy essentials™ - 6' Composite A/V Cable - Black | cat=TV & Home Theater | score=0.844
+  5) [ID 345] Best Buy essentials™ - 12' Composite A/V Cable - Black | cat=TV & Home Theater | score=0.838
+Генерация:
+анализ результатов поиска:
+- найдено аналогов: 5
+- средний скор сходства: 0.856
+- совпадение категории: 5/5 (100%)
+
+вывод: суть категории сохраняется, все аналоги из той же категории.
+качество поиска: высокое (скор > 0.7)
+
+---
+Запрос #426 | Best Buy® - $100 Graduation Gift Card (Gift Cards)
+Метрики: avg_score=0.927, cat 5/5
+Аналоги:
+  1) [ID 508] Best Buy® - $50 Graduation Gift Card | cat=Gift Cards | score=0.969
+  2) [ID 460] Best Buy® - $200 Graduation Gift Card | cat=Gift Cards | score=0.957
+  3) [ID 432] Best Buy® - $100 Thank You Gift Card | cat=Gift Cards | score=0.915
+  4) [ID 433] Best Buy® - $100 Wedding Congrats Gift Card | cat=Gift Cards | score=0.898
+  5) [ID 504] Best Buy® - $50 Congrats Gift Card | cat=Gift Cards | score=0.898
+Генерация:
+анализ результатов поиска:
+- найдено аналогов: 5
+- средний скор сходства: 0.927
+- совпадение категории: 5/5 (100%)
+
+вывод: суть категории сохраняется, все аналоги из той же категории.
+качество поиска: высокое (скор > 0.7)
+
+---
+Запрос #487 | Best Buy® - $30 Birthday Pixel Gift Card (Gift Cards)
+Метрики: avg_score=0.971, cat 5/5
+Аналоги:
+  1) [ID 469] Best Buy® - $25 Birthday Pixel Gift Card | cat=Gift Cards | score=0.983
+  2) [ID 421] Best Buy® - $100 Birthday Pixel Gift Card | cat=Gift Cards | score=0.973
+  3) [ID 496] Best Buy® - $30 Pixelated Gift Card | cat=Gift Cards | score=0.972
+  4) [ID 454] Best Buy® - $200 Birthday Pixel Gift Card | cat=Gift Cards | score=0.972
+  5) [ID 447] Best Buy® - $15 Pixelated Gift Card | cat=Gift Cards | score=0.953
+Генерация:
+анализ результатов поиска:
+- найдено аналогов: 5
+- средний скор сходства: 0.971
+- совпадение категории: 5/5 (100%)
+
+вывод: суть категории сохраняется, все аналоги из той же категории.
+качество поиска: высокое (скор > 0.7)
+
+---
+Запрос #548 | Lasko - Portable Ceramic Tower Space Heater with Remote Control - Black/Silver (Appliances)
+Метрики: avg_score=0.741, cat 5/5
+Аналоги:
+  1) [ID 549] Lasko - MyHeat Personal Electric Portable Space Heater - Black | cat=Appliances | score=0.858
+  2) [ID 879] Lasko - 3- Speed Twist-Top Tower Fan - Black | cat=Appliances | score=0.769
+  3) [ID 547] Lasko - 16" Floor Fan - Gray/white | cat=Appliances | score=0.733
+  4) [ID 550] Lasko - Pro-Performance High Velocity Case Utility Fan with Integrated Power Outlets - Gray/Black | cat=Appliances | score=0.726
+  5) [ID 524] Vornado - Whole Room Metal Heater with Auto Climate - White | cat=Appliances | score=0.621
+Генерация:
+анализ результатов поиска:
+- найдено аналогов: 5
+- средний скор сходства: 0.741
+- совпадение категории: 5/5 (100%)
+
+вывод: суть категории сохраняется, все аналоги из той же категории.
+качество поиска: высокое (скор > 0.7)
+
+---
+Запрос #609 | Logitech - G305 LIGHTSPEED Wireless Optical 6 Programmable Button Gaming Mouse with 12,000 DPI HERO Sensor - Black (Computers & Tablets)
+Метрики: avg_score=0.891, cat 5/5
+Аналоги:
+  1) [ID 608] Logitech - G203 LIGHTSYNC Wired Optical Gaming Mouse with 8,000 DPI sensor - White | cat=Computers & Tablets | score=0.913
+  2) [ID 607] Logitech - G203 LIGHTSYNC Wired Optical Gaming Mouse with 8,000 DPI sensor - Blue | cat=Computers & Tablets | score=0.912
+  3) [ID 610] Logitech - G403 (Hero) Wired Optical Gaming Mouse - Black | cat=Computers & Tablets | score=0.894
+  4) [ID 614] Logitech - G903 LIGHTSPEED Wireless Optical Gaming Ambidextrous Mouse with RGB Lighting - Black | cat=Computers & Tablets | score=0.876
+  5) [ID 615] Logitech - G915 LIGHTSPEED Full-size Wireless Mechanical GL Clicky Switch Gaming Keyboard with RGB Backlighting - Black | cat=Computers & Tablets | score=0.862
+Генерация:
+анализ результатов поиска:
+- найдено аналогов: 5
+- средний скор сходства: 0.891
+- совпадение категории: 5/5 (100%)
+
+вывод: суть категории сохраняется, все аналоги из той же категории.
+качество поиска: высокое (скор > 0.7)
+
+---
+Запрос #670 | Zephyr - Power Cyclone 42" Externally Vented Range Hood - Stainless Steel (Appliances)
+Метрики: avg_score=0.840, cat 5/5
+Аналоги:
+  1) [ID 669] Zephyr - Power Cyclone 30" Externally Vented Range Hood - Stainless Steel | cat=Appliances | score=0.970
+  2) [ID 671] Zephyr - Spruce 34 in. External Range Hood with light - Stainless Steel | cat=Appliances | score=0.820
+  3) [ID 674] Zephyr - Typhoon 30 in. 850 CFM Under Cabinet Mount Range Hood with LED Light - Stainless Steel | cat=Appliances | score=0.807
+  4) [ID 688] ZLINE - 48" Externally Vented Range Hood - Stainless Steel | cat=Appliances | score=0.802
+  5) [ID 675] Zephyr - Typhoon 36 in. 850 CFM Under Cabinet Mount Range Hood with LED Light - Black | cat=Appliances | score=0.800
+Генерация:
+анализ результатов поиска:
+- найдено аналогов: 5
+- средний скор сходства: 0.840
+- совпадение категории: 5/5 (100%)
+
+вывод: суть категории сохраняется, все аналоги из той же категории.
+качество поиска: высокое (скор > 0.7)
+
+---
+Запрос #731 | Lenovo - X1 Carbon 14" Refurbished Laptop - Intel Core i7 - 16GB Memory - 500GB Solid State Drive - Black (Computers & Tablets)
+Метрики: avg_score=0.851, cat 5/5
+Аналоги:
+  1) [ID 885] Lenovo - ThinkPad E16 Gen 1 16" Touch-Screen Laptop - Intel Core i5 with 16GB Memory - 512GB SSD - Black | cat=Computers & Tablets | score=0.878
+  2) [ID 902] Lenovo - ThinkPad E16 Gen 1 16" Laptop - AMD Ryzen 5 with 16GB memory - 256GB SSD - Black | cat=Computers & Tablets | score=0.875
+  3) [ID 881] Lenovo - 15.6" Refurbished 1920 x 1080 FHD - Intel 6th Gen Core i7-6600U with 16GB RAM - Intel HD Graphics 520 - 512GB SSD - Black | cat=Computers & Tablets | score=0.842
+  4) [ID 2] Lenovo - Ideapad 3i 15.6" FHD Touch Laptop - Core i5-1155G7 with 8GB Memory - 512GB SSD - Abyss Blue | cat=Computers & Tablets | score=0.837
+  5) [ID 895] ASUS - Vivobook 15.6" Creator Laptop (HD) - Intel 13th Gen Core i9 with 16GB Memory - NVIDIA GeForce RTX 3050 - 1TB SSD - Black | cat=Computers & Tablets | score=0.825
+Генерация:
+анализ результатов поиска:
+- найдено аналогов: 5
+- средний скор сходства: 0.851
+- совпадение категории: 5/5 (100%)
+
+вывод: суть категории сохраняется, все аналоги из той же категории.
+качество поиска: высокое (скор > 0.7)
+
+---
+Запрос #792 | Samsonite - Pro Travel 29" Expandable Spinner Suitcase - Black (Home, Furniture & Office)
+Метрики: avg_score=0.645, cat 5/5
+Аналоги:
+  1) [ID 791] Samsonite - Mobile Solution Upright Wheeled Mobile Office - Black | cat=Home, Furniture & Office | score=0.782
+  2) [ID 787] Samsonite - Andante 2 32" Wheeled Duffel Bag - Black/River Rock | cat=Home, Furniture & Office | score=0.772
+  3) [ID 67] Sauder - HomePlus Collection 3-Shelf Bookcase - White | cat=Home, Furniture & Office | score=0.570
+  4) [ID 28] Victor - Height Adjustable Corner Standing Desk Riser with Removable Keyboard Tray - Black | cat=Home, Furniture & Office | score=0.551
+  5) [ID 65] Sauder - Harvey Park Collection 4-Drawer Dresser - Grand Walnut | cat=Home, Furniture & Office | score=0.551
+Генерация:
+анализ результатов поиска:
+- найдено аналогов: 5
+- средний скор сходства: 0.645
+- совпадение категории: 5/5 (100%)
+
+вывод: суть категории сохраняется, все аналоги из той же категории.
+качество поиска: среднее (скор 0.5-0.7)
+
+---
+Запрос #853 | Wolfenstein: Youngblood Deluxe Edition - Xbox One [Digital] (Video Games)
+Метрики: avg_score=0.638, cat 5/5
+Аналоги:
+  1) [ID 854] Wolfenstein: Youngblood Standard Edition - Windows [Digital] | cat=Video Games | score=0.893
+  2) [ID 720] Xenoblade Chronicles Definitive Edition - Nintendo Switch [Digital] | cat=Video Games | score=0.597
+  3) [ID 727] Xenoblade Chronicles 2 Expansion Pass - Nintendo Switch [Digital] | cat=Video Games | score=0.575
+  4) [ID 185] Animal Crossing: New Horizons - Nintendo Switch [Digital] | cat=Video Games | score=0.570
+  5) [ID 581] WWE 2K18 Standard Edition - Nintendo Switch [Digital] | cat=Video Games | score=0.558
+Генерация:
+анализ результатов поиска:
+- найдено аналогов: 5
+- средний скор сходства: 0.638
+- совпадение категории: 5/5 (100%)
+
+вывод: суть категории сохраняется, все аналоги из той же категории.
+качество поиска: среднее (скор 0.5-0.7)
+

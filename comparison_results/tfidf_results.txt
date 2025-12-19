@@ -1,0 +1,35 @@
+TF-IDF BASELINE RUN @ 2025-12-17 22:34:04
+Параметры: max_features=15000, ngram_range=(1, 2), min_df=2, max_df=0.95
+Запросов: 3 | Всего аналогов: 15 | Средний скор: 0.403
+Совпадение категорий: 15/15 (100.0%)
+
+---
+Запрос #0 | Acer - Predator Helios 18-18" 250Hz Gaming Laptop HDR– Intel i9-13900HX with 32GB Memory–GeForce RTX 4080–1TB SSD (Computers & Tablets)
+Метрики: avg_score=0.278, cat 5/5
+Аналоги:
+  1) [ID 521] ASUS - TUF 15.6" Gaming Laptop 144hz FHD - Intel Core i7 with 16GB Memory - NVIDIA GeForce RTX 4060 - 512GB SSD - Mecha Grey | cat=Computers & Tablets | TF-IDF score=0.386
+  2) [ID 895] ASUS - Vivobook 15.6" Creator Laptop (HD) - Intel 13th Gen Core i9 with 16GB Memory - NVIDIA GeForce RTX 3050 - 1TB SSD - Black | cat=Computers & Tablets | TF-IDF score=0.372
+  3) [ID 535] MSI - Creator Z16P 16" Touch-Screen Laptop - Intel Core i7 - 32 GB Memory - NVIDIA GeForce RTX 3080 Ti - 1 TB SSD - Lunar Gray | cat=Computers & Tablets | TF-IDF score=0.249
+  4) [ID 6] HP - EliteBook 14" Refurbished Laptop - Intel Core i5 - 32GB Memory - 1TB Solid State Drive - Gray | cat=Computers & Tablets | TF-IDF score=0.202
+  5) [ID 899] Dell - 15.6" Refurbished 1920 x 1080 FHD - Intel 9th Gen Core i7-9750H with 32GB RAM - NVIDIA Quadro P620 - 512GB SSD - Gray | cat=Computers & Tablets | TF-IDF score=0.182
+
+---
+Запрос #10 | Samsung - The Terrace Series 75" Class LED Outdoor Partial Sun 4K UHD Smart Tizen TV (TV & Home Theater)
+Метрики: avg_score=0.185, cat 5/5
+Аналоги:
+  1) [ID 9] Samsung - The Terrace Outdoor Slim TV Mount up to 75" - Black | cat=TV & Home Theater | TF-IDF score=0.431
+  2) [ID 23] Samsung - The Freestyle FHD HDR Smart Portable Projector - White | cat=TV & Home Theater | TF-IDF score=0.191
+  3) [ID 409] BenQ - TK700STi Smart 4K HDR Short Throw Gaming Projector, Low Input Lag, Enhanced Game Modes, 3000 Lumens - White | cat=TV & Home Theater | TF-IDF score=0.119
+  4) [ID 403] Best Buy essentials™ - Full Motion TV Wall Mount for 47–84" TVs - Black | cat=TV & Home Theater | TF-IDF score=0.094
+  5) [ID 156] Samsung - 75” The Frame Customizable Bezel - Modern Teak | cat=TV & Home Theater | TF-IDF score=0.091
+
+---
+Запрос #20 | Samsung - Geek Squad Certified Refurbished Galaxy S21+ 5G 128GB (Unlocked) - Phantom Silver (Cell Phones)
+Метрики: avg_score=0.745, cat 5/5
+Аналоги:
+  1) [ID 83] Samsung - Geek Squad Certified Refurbished Galaxy S21 5G 128GB (Unlocked) - Phantom Gray | cat=Cell Phones | TF-IDF score=0.935
+  2) [ID 167] Samsung - Geek Squad Certified Refurbished Galaxy S21 Ultra 5G 128GB (Unlocked) - Phantom Silver | cat=Cell Phones | TF-IDF score=0.870
+  3) [ID 87] Samsung - Geek Squad Certified Refurbished Galaxy Z Fold2 5G 256GB (Unlocked) - Black | cat=Cell Phones | TF-IDF score=0.656
+  4) [ID 79] Samsung - Geek Squad Certified Refurbished Galaxy A12 32GB (Unlocked) - Black | cat=Cell Phones | TF-IDF score=0.647
+  5) [ID 86] Samsung - Geek Squad Certified Refurbished Galaxy Z Flip 5G 256GB (Unlocked) - Mystic Bronze | cat=Cell Phones | TF-IDF score=0.616
+
