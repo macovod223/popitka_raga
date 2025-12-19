@@ -2,12 +2,7 @@
 
 Цель: Найти похожие товары на основе текстового описания, сохраняя суть (категорию).
 
-
-1. Установка:
-   source .venv/bin/activate
-   python3 -m pip install -r requirements_comparison.txt rank-bm25 faiss-cpu
-
-2. Запуск (минимальная команда):
+Запуск (минимальная команда):
    python3 rag_prob.py --disable-generation
    # Использует значения по умолчанию: индексы 0,10,20, top-k=5, модель по умолчанию
 
