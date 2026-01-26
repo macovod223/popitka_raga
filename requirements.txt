@@ -1,0 +1,21 @@
+# Основные зависимости для проекта поиска аналогов товаров
+
+# Обработка данных
+pandas>=1.5.0
+numpy>=1.23.0
+
+# Эмбеддинги и ML
+sentence-transformers>=2.2.0
+scikit-learn>=1.2.0
+faiss-cpu>=1.7.4
+
+# NLP
+nltk>=3.8.0
+
+# LLM интеграция (Ollama API)
+requests>=2.28.0
+
+# Опционально: для генерации отчётов через transformers (rag_prob.py)
+# transformers>=4.30.0
+# torch>=2.0.0
+
