@@ -1,7 +1,8 @@
 __pycache__/
-*.pyc
-.env
-.venv/
-venv/
-.DS_Store
-.cache
+.cache/
+reports/
+reports_llm_*/
+comparison_results/
+*.png
+*.tsv
+*.ndjson

@@ -11,6 +11,8 @@
 
 import argparse
 import logging
+import os
+import re
 import time
 from dataclasses import dataclass
 from datetime import datetime
@@ -20,24 +22,94 @@ from typing import List, Optional, Tuple
 import numpy as np
 import pandas as pd
 from sentence_transformers import SentenceTransformer
+from rank_bm25 import BM25Okapi
 
-from baseline_bm25 import BM25Index
+TOKEN_RE = re.compile(r"\b\w+\b")
+STOP_WORDS = {
+    "a", "an", "and", "are", "as", "at", "be", "by", "for", "from",
+    "has", "he", "in", "is", "it", "its", "of", "on", "that", "the",
+    "to", "was", "will", "with", "this", "but", "they", "have",
+    "had", "what", "said", "each", "which", "their", "time", "if",
+    "up", "out", "many", "then", "them", "these", "so", "some", "her",
+    "would", "make", "like", "into", "him", "two", "more",
+    "very", "after", "words", "long", "than", "first", "been", "call",
+    "who", "oil", "sit", "now", "find", "down", "day", "did", "get",
+    "come", "made", "may", "part",
+}
 from common import evaluate_retrieval_metrics, print_analogs
-from rag_prob import (
+from llm_report import build_report_prompt, local_llm_generate, save_report, transformers_generate, strip_emojis, clean_llm_analysis
+from rag_core.cli import parse_example_indices
+from rag_core.components import add_component_text
+from rag_core.constants import (
     DEFAULT_DATASET,
     DEFAULT_EMBED_MODEL,
     DEFAULT_INDICES,
     DEFAULT_TOP_K,
+)
+from rag_core.data import load_data
+from rag_core.embeddings import (
     SimpleVectorIndex,
-    add_component_text,
+    _get_cache_path,
     embed_texts,
-    load_data,
+    load_cached_embeddings,
     load_embedding_model,
-    parse_example_indices,
+    save_cached_embeddings,
 )
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger("hybrid_bm25_rag")
+
+
+class BM25Index:
+    # индекс для поиска на основе BM25
+
+    def __init__(self, texts: List[str], ids: List[int], k1: float = 1.5, b: float = 0.75):
+        if len(texts) != len(ids):
+            raise ValueError("Количество текстов и ID должно совпадать")
+
+        self.ids = ids
+        self.k1 = k1
+        self.b = b
+
+        tokenized_texts = [self._tokenize(text) for text in texts]
+        self.bm25 = BM25Okapi(tokenized_texts, k1=k1, b=b)
+
+        logger.info("Создан BM25 индекс для %s документов", len(texts))
+        logger.info("Параметры: k1=%s, b=%s", k1, b)
+
+    @staticmethod
+    def _tokenize(text: str) -> List[str]:
+        # Токенизация: перевод в нижний регистр, поиск слов, фильтрация стоп-слов
+        if not text:
+            return []
+
+        tokens = TOKEN_RE.findall(text.lower())
+        return [t for t in tokens if len(t) > 2 and t not in STOP_WORDS]
+
+    def search(self, query: str, top_k: int = 5) -> List[Tuple[int, float]]:
+        # Поиск по BM25 с нормализацией скоров через сигмоиду
+        if not query:
+            return []
+
+        tokenized_query = self._tokenize(query)
+        if not tokenized_query:
+            return []
+
+        scores = self.bm25.get_scores(tokenized_query)
+
+        scores_array = np.array(scores)
+        if len(scores_array) > 0:
+            max_score = np.max(scores_array)
+            if max_score > 0:
+                alpha = 5.0
+                beta = 0.5
+                normalized = scores_array / max_score
+                scores_array = 1.0 / (1.0 + np.exp(-alpha * (normalized - beta)))
+            else:
+                scores_array = np.zeros_like(scores_array)
+
+        top_indices = np.argsort(scores_array)[::-1][:top_k]
+        return [(self.ids[i], float(scores_array[i])) for i in top_indices if scores_array[i] > 0]
 
 
 @dataclass
@@ -47,7 +119,7 @@ class HybridConfig:
     indices: Tuple[int, ...] = DEFAULT_INDICES
     top_k: int = DEFAULT_TOP_K
     allow_cross_category: bool = False
-    output_file: Path = Path("comparison_results/hybrid_bm25_rag_comparison.txt")
+    output_file: Optional[Path] = None
     # Параметры BM25
     bm25_k1: float = 1.5
     bm25_b: float = 0.75
@@ -56,6 +128,15 @@ class HybridConfig:
     rag_weight: float = 0.7  # Вес RAG в финальном скоре (больше, т.к. показывает лучшие результаты)
     use_rrf: bool = True  # Использовать Reciprocal Rank Fusion вместо взвешенной суммы
     rrf_k: int = 20  # Параметр k для RRF (оптимизировано для лучших результатов)
+    # Параметры генерации отчёта
+    gen_report: bool = False  # Генерировать ли LLM-отчёт
+    llm_model: str = "mistral"  # Модель локальной LLM (через HTTP)
+    llm_models: Optional[str] = None  # Список моделей через запятую для последовательного прогона
+    llm_url: str = "http://localhost:11434/api/generate"  # URL локального LLM API
+    llm_backend: str = "transformers"  # transformers|http
+    hf_allow_download: bool = True  # Разрешить transformers скачивать модели (иначе только локальный кеш)
+    report_dir: Path = Path("reports")  # Директория для отчётов
+    report_max_chars: int = 800  # Максимальная длина описаний в prompt (уменьшено для стабильности на малых моделях)
 
 
 def reciprocal_rank_fusion(
@@ -274,6 +355,10 @@ def find_analogs_hybrid(
             top_k=max(top_k * 5, 30)
         )
     
+    # создаём словари для быстрого доступа к скорам
+    bm25_score_map = {item_id: score for item_id, score in bm25_results}
+    rag_score_map = {item_id: score for item_id, score in rag_results}
+    
     # фильтруем по категории и формируем финальный список
     analogs = []
     for rec_id, score in combined_results:
@@ -289,7 +374,11 @@ def find_analogs_hybrid(
             if candidate.get("root_category", None) != query_cat:
                 continue
         
-        analogs.append((rec_id, score, candidate))
+        # получаем отдельные скоры для отчёта
+        bm25_score = bm25_score_map.get(rec_id)
+        dense_score = rag_score_map.get(rec_id)
+        
+        analogs.append((rec_id, score, candidate, bm25_score, dense_score))
         
         if len(analogs) >= top_k:
             break
@@ -297,11 +386,26 @@ def find_analogs_hybrid(
     return row, analogs
 
 
-# используем общие функции из common.py
-evaluate_hybrid_retrieval = lambda row, analogs, verbose=True: evaluate_retrieval_metrics(
-    row, analogs, verbose=verbose, method_name="Hybrid BM25+RAG"
-)
-print_analogs_hybrid = lambda row, analogs: print_analogs(row, analogs, method_name="Hybrid BM25+RAG")
+# используем общие функции из common.py с адаптацией для расширенного формата
+def evaluate_hybrid_retrieval(row, analogs, verbose=True):
+    """Обёртка для evaluate_retrieval_metrics с поддержкой расширенного формата."""
+    # Преобразуем расширенный формат (id, score, cand, bm25_score, dense_score) 
+    # в стандартный формат (id, score, cand)
+    standard_analogs = [
+        (analog[0], analog[1], analog[2]) for analog in analogs
+    ]
+    return evaluate_retrieval_metrics(
+        row, standard_analogs, verbose=verbose, method_name="Hybrid BM25+RAG"
+    )
+
+
+def print_analogs_hybrid(row, analogs):
+    """Обёртка для print_analogs с поддержкой расширенного формата."""
+    # Преобразуем расширенный формат в стандартный
+    standard_analogs = [
+        (analog[0], analog[1], analog[2]) for analog in analogs
+    ]
+    print_analogs(row, standard_analogs, method_name="Hybrid BM25+RAG")
 
 
 class HybridPipeline:
@@ -377,6 +481,9 @@ class HybridPipeline:
         # загрузка модели эмбеддингов
         t2 = time.time()
         logger.info(f"[3/4] загрузка модели эмбеддингов '{self.config.embedding_model}'...")
+        if not self.config.hf_allow_download:
+            os.environ.setdefault("HF_HUB_OFFLINE", "1")
+            os.environ.setdefault("TRANSFORMERS_OFFLINE", "1")
         self.embedder = load_embedding_model(self.config.embedding_model)
         elapsed = time.time() - t2
         logger.info(f"      модель загружена за {elapsed:.1f} сек")
@@ -385,9 +492,19 @@ class HybridPipeline:
         t3 = time.time()
         logger.info(f"[4/4] генерация эмбеддингов для {len(self.df)} товаров...")
         logger.info("      (это может занять некоторое время)")
-        embeddings = embed_texts(self.embedder, texts)
-        elapsed = time.time() - t3
-        logger.info(f"      эмбеддинги сгенерированы за {elapsed:.1f} сек ({elapsed/len(self.df)*1000:.1f} мс/товар)")
+
+        cache_path = _get_cache_path(self.config.embedding_model, self.config.dataset, len(self.df))
+        embeddings = load_cached_embeddings(cache_path)
+        if embeddings is None:
+            embeddings = embed_texts(self.embedder, texts)
+            elapsed = time.time() - t3
+            logger.info(
+                f"      эмбеддинги сгенерированы за {elapsed:.1f} сек ({elapsed/len(self.df)*1000:.1f} мс/товар)"
+            )
+            save_cached_embeddings(embeddings, cache_path)
+        else:
+            elapsed = time.time() - t3
+            logger.info(f"      эмбеддинги загружены из кэша за {elapsed:.1f} сек")
         
         self.rag_index = SimpleVectorIndex(embeddings, ids)
         
@@ -422,6 +539,10 @@ class HybridPipeline:
         
         metrics = evaluate_hybrid_retrieval(row, analogs, verbose=False)
         
+        # Генерация LLM-отчёта, если включено
+        if self.config.gen_report and analogs:
+            self._generate_report(idx, row, analogs)
+        
         return {
             "query_index": idx,
             "title": row.get("title", ""),
@@ -431,6 +552,97 @@ class HybridPipeline:
             "metrics": metrics,
         }
     
+    def _generate_report(self, idx: int, query_row: pd.Series, analogs: List[tuple]) -> None:
+        """Генерация LLM-отчёта для запроса."""
+        try:
+            # Формируем словарь запроса
+            query_item = {
+                "item_id": idx,
+                "query_index": idx,
+                "title": query_row.get("title", ""),
+                "root_category": query_row.get("root_category", ""),
+                "category": query_row.get("root_category", ""),
+                "brand": query_row.get("brand", ""),
+                "product_description": query_row.get("product_description", ""),
+                "features_summary": query_row.get("features_summary", ""),
+                "product_specifications": query_row.get("product_specifications", ""),
+            }
+            
+            # prompt будем строить под конкретную модель (язык/формат могут отличаться)
+
+            # Статическая часть отчёта (детерминированная): заголовок + таблица аналогов
+            header_lines = []
+            header_lines.append("ЗАГОЛОВОК")
+            header_lines.append(f"Запрос: {query_item.get('title','')}")
+            header_lines.append(f"Категория: {query_item.get('root_category','')}")
+            header_lines.append("")
+            header_lines.append("ТАБЛИЦА АНАЛОГОВ")
+            header_lines.append("ID\tНазвание\tScore")
+            for r, a in enumerate(analogs, start=1):
+                cand_id, hscore, cand = a[0], a[1], a[2]
+                title = (cand.get("title", "") or "").replace("\t", " ")[:100]
+                header_lines.append(f"{cand_id}\t{title}\t{hscore:.2f}")
+            header_text = "\n".join(header_lines).strip()
+            
+            # Если задан список моделей — прогоняем все и пишем сравнение
+            models = []
+            if self.config.llm_models:
+                models = [m.strip() for m in self.config.llm_models.split(",") if m.strip()]
+            else:
+                models = [self.config.llm_model]
+
+            for model in models:
+                # Формируем prompt на русском для всех моделей.
+                prompt_lang = "ru"
+                prompt = build_report_prompt(
+                    query_item=query_item,
+                    analog_items=analogs,
+                    run_meta=None,
+                    max_chars=self.config.report_max_chars,
+                    adaptive_limit=True,  # Автоматически рассчитывает ограничения
+                    language=prompt_lang,
+                    num_ctx=self.config.report_max_chars * 2, # Увеличиваем контекст
+                )
+                if self.config.llm_backend == "transformers":
+                    # Для малых моделей на CPU используем низкую температуру и сэмплирование для стабильности
+                    report_text = transformers_generate(
+                        prompt=prompt,
+                        model=model,
+                        temperature=0.1,
+                        top_p=0.7,
+                        num_predict=150,
+                        num_ctx=2048,
+                        allow_download=self.config.hf_allow_download,
+                        run_id=f"post-fix-final-{model}",
+                    )
+                else:
+                    report_text = local_llm_generate(
+                        prompt=prompt,
+                        model=model,
+                        llm_url=self.config.llm_url,
+                        timeout=120,
+                        run_id=f"post-fix-1-{model}",
+                    )
+
+                if not report_text:
+                    logger.warning(f"Не удалось сгенерировать отчёт для запроса #{idx} (модель: {model})")
+                    continue
+
+                # Собираем финальный отчёт: детерминированный header+table + LLM-часть (3-6)
+
+                # Собираем финальный отчёт: детерминированный header+table + LLM-часть (3-6)
+                report_text = clean_llm_analysis(report_text).strip()
+                if not report_text.upper().startswith("КРАТКИЙ ВЫВОД"):
+                    report_text = "КРАТКИЙ ВЫВОД: " + report_text
+
+                final_report = header_text + "\n\n" + report_text
+                report_path = self.config.report_dir / f"query_{idx}_report_{model}.txt"
+                save_report(final_report, report_path)
+                logger.info(f"LLM-отчёт сохранён: {report_path}")
+                
+        except Exception as e:
+            logger.error(f"Ошибка при генерации отчёта для запроса #{idx}: {e}", exc_info=True)
+
     def _render_record(self, record: dict) -> None:
         """Вывод результатов на экран."""
         row = self.df.iloc[record["query_index"]]
@@ -447,7 +659,7 @@ class HybridPipeline:
     
     def _write_results(self) -> None:
         """Сохранение результатов в файл."""
-        if not self.records:
+        if not self.records or not self.config.output_file:
             return
         
         output_path = self.config.output_file
@@ -491,10 +703,27 @@ class HybridPipeline:
             )
             lines.append("Аналоги:")
             if record["analogs"]:
-                for i, (candidate_id, score, cand) in enumerate(record["analogs"], start=1):
+                for i, analog_data in enumerate(record["analogs"], start=1):
+                    if len(analog_data) >= 3:
+                        candidate_id, score, cand = analog_data[0], analog_data[1], analog_data[2]
+                        bm25_score = analog_data[3] if len(analog_data) > 3 else None
+                        dense_score = analog_data[4] if len(analog_data) > 4 else None
+                    else:
+                        # Fallback для старого формата
+                        candidate_id, score = analog_data[0], analog_data[1]
+                        cand = analog_data[2] if len(analog_data) > 2 else {}
+                        bm25_score = None
+                        dense_score = None
+                    
+                    score_str = f"Hybrid score={score:.3f}"
+                    if bm25_score is not None:
+                        score_str += f", BM25={bm25_score:.3f}"
+                    if dense_score is not None:
+                        score_str += f", Dense={dense_score:.3f}"
+                    
                     lines.append(
                         f"  {i}) [ID {candidate_id}] {cand.get('title', '')} "
-                        f"| cat={cand.get('root_category', '')} | Hybrid score={score:.3f}"
+                        f"| cat={cand.get('root_category', '')} | {score_str}"
                     )
             else:
                 lines.append("  (аналогов не найдено)")
@@ -525,8 +754,8 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--output-file",
-        default="comparison_results/hybrid_bm25_rag_comparison.txt",
-        help="Путь к файлу результатов",
+        default="",
+        help="Путь к файлу результатов (если не задан — файл не создаётся)",
     )
     parser.add_argument(
         "--bm25-k1",
@@ -569,6 +798,62 @@ def parse_args() -> argparse.Namespace:
         default=20,
         help="Параметр k для RRF (меньше = более агрессивное ранжирование, обычно 20-60)",
     )
+    parser.add_argument(
+        "--gen-report",
+        action="store_true",
+        help="Генерировать структурированный отчёт через LLM (transformers/http)",
+    )
+    parser.add_argument(
+        "--llm-model",
+        type=str,
+        default="mistral",
+        help="Название модели для генерации отчёта (по умолчанию: mistral)",
+    )
+    parser.add_argument(
+        "--llm-models",
+        type=str,
+        default=None,
+        help="Список моделей через запятую для последовательного прогона (например: qwen,falcon).",
+    )
+    parser.add_argument(
+        "--llm-url",
+        type=str,
+        default="http://localhost:11434/api/generate",
+        help="URL локального LLM API (по умолчанию: http://localhost:11434/api/generate)",
+    )
+    parser.add_argument(
+        "--llm-backend",
+        type=str,
+        default="transformers",
+        choices=["transformers", "http"],
+        help="Backend для генерации отчёта: transformers (без сервера) или http (через локальный API)",
+    )
+    hf_download_group = parser.add_mutually_exclusive_group()
+    hf_download_group.add_argument(
+        "--hf-allow-download",
+        dest="hf_allow_download",
+        action="store_true",
+        help="Разрешить transformers скачивать модели (по умолчанию: включено)",
+    )
+    hf_download_group.add_argument(
+        "--hf-no-download",
+        dest="hf_allow_download",
+        action="store_false",
+        help="Запретить transformers скачивать модели (использовать только локальный кеш)",
+    )
+    parser.set_defaults(hf_allow_download=True)
+    parser.add_argument(
+        "--report-dir",
+        type=str,
+        default="reports",
+        help="Директория для сохранения отчётов (по умолчанию: reports)",
+    )
+    parser.add_argument(
+        "--report-max-chars",
+        type=int,
+        default=1200,
+        help="Максимальная длина описаний товаров в prompt (по умолчанию: 1200)",
+    )
     return parser.parse_args()
 
 
@@ -580,19 +865,28 @@ def build_config_from_cli(args: argparse.Namespace) -> HybridConfig:
     
     use_rrf = args.use_rrf and not args.no_rrf
     
+    output_file = Path(args.output_file) if args.output_file else None
     return HybridConfig(
         dataset=Path(args.dataset),
         embedding_model=args.embedding_model,
         indices=tuple(indices),
         top_k=args.top_k,
         allow_cross_category=args.allow_cross_category,
-        output_file=Path(args.output_file),
+        output_file=output_file,
         bm25_k1=args.bm25_k1,
         bm25_b=args.bm25_b,
         bm25_weight=args.bm25_weight,
         rag_weight=args.rag_weight,
         use_rrf=use_rrf,
         rrf_k=args.rrf_k,
+        gen_report=args.gen_report,
+        llm_model=args.llm_model,
+        llm_models=args.llm_models,
+        llm_url=args.llm_url,
+        llm_backend=args.llm_backend,
+        hf_allow_download=args.hf_allow_download,
+        report_dir=Path(args.report_dir),
+        report_max_chars=args.report_max_chars,
     )
 
 
@@ -605,4 +899,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
